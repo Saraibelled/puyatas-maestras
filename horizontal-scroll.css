@@ -1,0 +1,92 @@
+.scroll-wrapper{
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  overflow: hidden;
+}
+
+.scroll-inner{
+  width: 100%;
+}
+
+.scroll-horizontal{
+  width: 100%;
+  max-height: min(750px, 80vh); 
+  overflow-x: auto;
+  overflow-y: hidden;
+  -webkit-overflow-scrolling: touch;
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+}
+
+.scroll-horizontal::-webkit-scrollbar{
+  display: none;
+}
+
+.scroll-horizontal img{
+  display: block;
+  max-height: min(750px, 80vh);
+  width: auto;
+  height: auto;
+  max-width: none;
+  margin: 0 auto;
+}
+
+/* Cabecera */
+.altimetria{
+  font-family: 'Lato', sans-serif;
+  font-size: 20px;
+  text-align: center;
+  color: #fff;
+  background-color: #56c2b4;
+  padding: 6px;
+  width: 100%;
+}
+
+.altimetria span{ font-size: 16px; }
+
+.titular{
+  font-family: 'Lato', sans-serif;
+  font-size: 18px;
+  padding: 20px 20px 4px;
+  color: #202020;
+}
+
+.datos{
+  font-family: 'Lato', sans-serif;
+  font-size: 14px;
+  padding: 4px 20px 20px;
+  color: #969594;
+}
+
+/* Leyenda */
+.caja-leyenda{
+  max-width: 650px;
+  margin: 0 auto 20px;
+}
+
+.leyenda{
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  font-family: 'Lato', sans-serif;
+  font-size: 13px;
+  line-height: 24px;
+  padding: 10px;
+}
+
+.leyenda-item{
+  display: flex;
+  align-items: center;
+  margin-right: 12px;
+}
+
+.leyenda-color{
+  width: 12px;
+  height: 12px;
+  margin-right: 4px;
+}
+
+.leyenda-text{
+  white-space: nowrap;
+}
