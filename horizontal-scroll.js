@@ -1,8 +1,11 @@
-const container = document.querySelector(".scroll-horizontal");
+const containers = document.querySelectorAll(".scroll-container");
 
-if (container) {
-  container.addEventListener("wheel", function (e) {
+containers.forEach((el) => {
+  el.addEventListener("wheel", (e) => {
+    const canScroll = el.scrollWidth > el.clientWidth;
+    if (!canScroll) return;
+
     e.preventDefault();
-    container.scrollLeft += e.deltaY;
+    el.scrollLeft += e.deltaY * 1.2;
   }, { passive: false });
-}
+});
