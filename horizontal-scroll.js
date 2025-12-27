@@ -7,19 +7,23 @@ document.addEventListener("DOMContentLoaded", () => {
     return rect.top < window.innerHeight && rect.bottom > 0;
   }
 
-  window.addEventListener("wheel", (e) => {
+  document.addEventListener("wheel", (e) => {
     if (!isInView(el)) return;
 
-    const delta = e.deltaY;
+    // En trackpad a veces hay deltaX también
+    const delta = Math.abs(e.deltaY) > Math.abs(e.deltaX) ? e.deltaY : e.deltaX;
+
     const maxScroll = el.scrollWidth - el.clientWidth;
-    const next = el.scrollLeft + delta;
+    const atStart = el.scrollLeft <= 0;
+    const atEnd = el.scrollLeft >= maxScroll - 1;
 
-    // Solo interceptamos si realmente podemos mover en horizontal
-    if ((delta > 0 && el.scrollLeft < maxScroll) ||
-        (delta < 0 && el.scrollLeft > 0)) {
-
+    // 👉 Solo interceptar si AÚN podemos mover en horizontal
+    if ((delta > 0 && !atEnd) || (delta < 0 && !atStart)) {
       e.preventDefault();
-      el.scrollLeft = Math.max(0, Math.min(maxScroll, next));
+      e.stopPropagation();
+      el.scrollLeft += delta;
     }
-  }, { passive: false });
+    // Si estamos en inicio o fin → NO hacemos nada:
+    // el scroll vertical de la página funciona normal
+  }, { passive: false, capture: true });
 });
