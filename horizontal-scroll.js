@@ -1,35 +1,25 @@
 document.addEventListener("DOMContentLoaded", () => {
-  const containers = document.querySelectorAll(".scroll-horizontal");
-  let active = null;
+  const el = document.querySelector(".scroll-horizontal");
+  if (!el) return;
 
-  function isFullyVisible(el) {
-    const rect = el.getBoundingClientRect();
-    const margin = 40;
-    return rect.top >= -margin && rect.bottom <= window.innerHeight + margin;
+  function isInView(element) {
+    const rect = element.getBoundingClientRect();
+    return rect.top < window.innerHeight && rect.bottom > 0;
   }
 
   window.addEventListener("wheel", (e) => {
-    containers.forEach((el) => {
+    if (!isInView(el)) return;
 
-      // Activar solo si aún no hay uno activo y este está visible
-      if (!active && isFullyVisible(el)) {
-        active = el;
-      }
+    const delta = e.deltaY;
+    const maxScroll = el.scrollWidth - el.clientWidth;
+    const next = el.scrollLeft + delta;
 
-      if (active !== el) return;
+    // Solo interceptamos si realmente podemos mover en horizontal
+    if ((delta > 0 && el.scrollLeft < maxScroll) ||
+        (delta < 0 && el.scrollLeft > 0)) {
 
-      const delta = e.deltaY;
-      const atStart = el.scrollLeft <= 0;
-      const atEnd = el.scrollLeft + el.clientWidth >= el.scrollWidth - 1;
-
-      // Si puede moverse en horizontal, lo hacemos
-      if ((delta > 0 && !atEnd) || (delta < 0 && !atStart)) {
-        e.preventDefault();
-        el.scrollLeft += delta * 1.2;
-      } else {
-        // Si estamos en un extremo, liberamos para que vuelva el scroll vertical
-        active = null;
-      }
-    });
+      e.preventDefault();
+      el.scrollLeft = Math.max(0, Math.min(maxScroll, next));
+    }
   }, { passive: false });
 });
